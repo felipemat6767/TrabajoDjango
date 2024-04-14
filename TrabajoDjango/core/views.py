@@ -1,67 +1,68 @@
 from django.shortcuts import render,redirect
-from .models import  Juego,Categoria_Juego
+from .models import Libro,Categoria_Libro
 from django.shortcuts import get_object_or_404
 # Create your views here. 
+ 
 def Home(request): 
-    Categorias_Juegos = Categoria_Juego.objects.all() 
-    contexto = { "Categorias_Juegos": Categorias_Juegos } 
-    return render(request, 'juego/index.html', contexto )  
+    Categorias_Libros = Categoria_Libro.objects.all() 
+    contexto = { "Categorias_Libros": Categorias_Libros} 
+    return render(request, 'libro/index.html', contexto )  
   
-def listado_juegos(request): 
-    Categorias_Juegos = Categoria_Juego.objects.all()
-    juegos= Juego.objects.all()
-    contexto = { "juegos":juegos, "Categorias_Juegos":Categorias_Juegos } 
-    return render(request, 'juego/todosJuegos.html', contexto )  
+def listado_libros(request): 
+    Categorias_Libros = Categoria_Libro.objects.all()
+    libros= Libro.objects.all()
+    contexto = { "libros":libros, "Categorias_Libros":Categorias_Libros } 
+    return render(request, 'libro/todosLibros.html', contexto )  
 
-def detalle_juegos(request, id): 
-    Juegos = Juego.objects.filter(categoria_juego = id) 
-    #juegos= Juego.objects.all() 
-    contexto = { "Juegos":Juegos} 
-    return render(request, 'juego/juegoCategoria.html', contexto )
+def detalle_libros(request, id): 
+    libros = Libro.objects.filter(categoria_libro = id)  
+    contexto = { "libros":libros} 
+    return render(request, 'libro/libroCategoria.html', contexto )
 
-def detalle_juego(request, id): 
-    juegos = get_object_or_404(Juego, id=id  )
-    Juegos = Juego.objects.filter(id = id) 
-    #juegos= Juego.objects.all() 
-    contexto = { "Juegos":Juegos} 
-    return render(request, 'juego/juegoDetalle.html', contexto )
+def detalle_libro(request, id):  
+    libros = Libro.objects.filter(id = id)  
+    contexto = { "libros":libros} 
+    return render(request, 'libro/libroDetalle.html', contexto )
 
-def crear_juegos(request ):
+def crear_libros(request ):
     if request.method== 'POST': 
         categoria_id = request.POST.get('categoria')
-        categoria_juego = get_object_or_404(Categoria_Juego, id=categoria_id)
-        
+        categoria_libro = get_object_or_404(Categoria_Libro, id=categoria_id)
+        isbn = request.POST.get('isbn')
+        autor = request.POST.get('autor')
         precio = request.POST.get('precio')
         nombre = request.POST.get('nombre')
         descripcion = request.POST.get('descripcion')
         imagen = request.POST.get('imagen')
-        Juego.objects.create(
+        Libro.objects.create(
             precio = precio,
+            isbn  = isbn,
+            autor  = autor,
             nombre = nombre,
             descripcion = descripcion,
             imagen = imagen,
-            categoria_juego = categoria_juego 
+            categoria_libro = categoria_libro
         )    
         
-        return redirect( 'listado_juegos') 
+        return redirect( 'listado_libros') 
 
-    categorias = Categoria_Juego.objects.all()
+    categorias = Categoria_Libro.objects.all()
     contexto = {  "categorias":categorias } 
-    return render(request, 'juego/crearJuego.html', contexto )
+    return render(request, 'libro/crearLibro.html', contexto )
 
-def editar_juegos(request, id): 
-    juego = get_object_or_404(Juego, id=id  )
+def editar_libros(request, id): 
+    libro = get_object_or_404(Libro, id=id  )
     if request.method== 'POST':  
         categoria_id = request.POST.get('categoria')
-        categoria_juego = get_object_or_404(Categoria_Juego, id=categoria_id) 
-        juego.nombre = request.POST['nombre']
-        juego.precio = request.POST['precio']
-        juego.descripcion = request.POST.get('descripcion')
-        juego.categoria_juego = categoria_juego 
+        categoria_libro = get_object_or_404(Categoria_Libro, id=categoria_id) 
+        libro.nombre = request.POST['nombre']
+        libro.precio = request.POST['precio']
+        libro.descripcion = request.POST.get('descripcion')
+        libro.categoria_libro = categoria_id 
         if 'imagen' in request.FILES : 
-            juego.imagen = request.FILES ['imagen']  
-        juego.save() 
+            libro.imagen = request.FILES ['imagen']  
+        libro.save() 
            
-    categoria_juegos = Categoria_Juego.objects.all()
-    contexto = {  "juego":juego,  "categoria_juegos":categoria_juegos} 
-    return render(request, 'juego/editarJuego.html', contexto )
+    categoria_libros = Categoria_Libro.objects.all()
+    contexto = {  "libro":libro,  "categoria_libros": categoria_libros} 
+    return render(request, 'libro/editarLibro.html', contexto )
