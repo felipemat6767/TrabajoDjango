@@ -1,29 +1,43 @@
 from django.shortcuts import render,redirect
 from .models import Libro,Categoria_Libro
 from django.shortcuts import get_object_or_404
+from .forms import UserCreationForm, CustomUserCreationForm
+from django.contrib.auth import login,logout,authenticate
+from django.contrib.auth.decorators import login_required
 # Create your views here. 
  
 def Home(request): 
     Categorias_Libros = Categoria_Libro.objects.all() 
     contexto = { "Categorias_Libros": Categorias_Libros} 
     return render(request, 'libro/index.html', contexto )  
-  
+
+@login_required  
 def listado_libros(request): 
     Categorias_Libros = Categoria_Libro.objects.all()
     libros= Libro.objects.all()
     contexto = { "libros":libros, "Categorias_Libros":Categorias_Libros } 
-    return render(request, 'libro/todosLibros.html', contexto )  
+    return render(request, 'libro/todosLibros.html', contexto ) 
 
+def libros_total(request): 
+    Categorias_Libros = Categoria_Libro.objects.all()
+    libros= Libro.objects.all()
+    contexto = { "libros":libros, "Categorias_Libros":Categorias_Libros } 
+    return render(request, 'libro/Catalogo.html', contexto ) 
+
+@login_required
 def detalle_libros(request, id): 
+    Categorias_Libros = Categoria_Libro.objects.all()
     libros = Libro.objects.filter(categoria_libro = id)  
-    contexto = { "libros":libros} 
+    contexto = { "libros":libros, "Categorias_Libros":Categorias_Libros } 
     return render(request, 'libro/libroCategoria.html', contexto )
 
+@login_required
 def detalle_libro(request, id):  
     libros = Libro.objects.filter(id = id)  
     contexto = { "libros":libros} 
     return render(request, 'libro/libroDetalle.html', contexto )
 
+@login_required
 def crear_libros(request ):
     if request.method== 'POST': 
         categoria_id = request.POST.get('categoria')
@@ -50,6 +64,7 @@ def crear_libros(request ):
     contexto = {  "categorias":categorias } 
     return render(request, 'libro/crearLibro.html', contexto )
 
+@login_required
 def editar_libros(request, id): 
     libro = get_object_or_404(Libro, id=id  )
     if request.method== 'POST':  
@@ -66,3 +81,17 @@ def editar_libros(request, id):
     categoria_libros = Categoria_Libro.objects.all()
     contexto = {  "libro":libro,  "categoria_libros": categoria_libros} 
     return render(request, 'libro/editarLibro.html', contexto )
+
+def registro(request):  
+    contexto = {  "form":UserCreationForm() } 
+    if request.method== 'POST': 
+        formulario = CustomUserCreationForm(data = request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            user = authenticate(username=formulario.cleaned_data['username'], password=formulario.cleaned_data['password1'])
+            login(request,user)
+            return redirect(to="Home")
+        contexto['form'] = formulario
+      
+    return render(request, 'registration/registro.html', contexto) 
+     

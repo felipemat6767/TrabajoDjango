@@ -68,11 +68,9 @@ body{
 
 .Contenedor-categorias{
     display: flex;
-    flex-direction: column;
-    align-self: center;
+    flex-direction: column; 
     height: 100vh ; 
-    width: 100%;
-    background-image: url("../../core/img/FondoInicio.jpg") ;
+    width: 100%; 
     background-repeat: no-repeat;
     background-size: cover;
     margin-top: 0;
@@ -80,6 +78,7 @@ body{
     background-attachment: fixed; 
    
 }
+ 
 .Contenedor-categorias h1 {
     color: darkgoldenrod;
     font-size: 22px;
@@ -91,18 +90,22 @@ body{
 }
 .Categorias{
     display: flex; 
-    align-items: center;
-    justify-content: center; 
-    margin: 0 auto ;
-    flex-wrap: wrap;  
-    height: 80%;
+    justify-content: space-around; 
+    margin: 0 auto ;  
+    width: 100%; 
 }
- 
-.CategoriaTipo{
-    width: 29%; 
+.categoria{
+    display: flex;  
+    justify-content: center;
+    margin: 0 auto ;  
+    flex-wrap: wrap;
+    width: 70%; 
+    margin-right: 12px;
+}
+.CategoriaTipo{ 
     background-color: thistle;
     align-self: center;
-    margin: 8px; 
+    margin: 12px; 
     flex-grow: 2; 
     display: flex;
     flex-direction: column;
@@ -136,6 +139,29 @@ body{
     align-items: center;
      
 }  
+
+.usuarios{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 30%; 
+    margin-left: 12px; 
+    padding: 20px;
+    background-color: #7dcd81;
+}
+.usuarios h3{
+    font-size: 25px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    margin: 20px;
+}
+.usuarios span{ 
+    padding: 10px;
+}
+.usuarios span a{
+    text-decoration: none; 
+    padding: 10px;
+}
 .filasCategoria{
     display: flex;
     justify-content: center;
@@ -159,23 +185,33 @@ body{
     width: 60%; 
     height: 40%;    
 }
+ 
+ 
 .Juego{
     display: flex;
     justify-content: space-between;
     align-items: center; 
     border: 2px solid;
     height: 40%;
-    width: 90%;
-    margin-right: 0%!important; 
+    width: 90%; 
 }
 .Juego span {
     display: flex;  
     padding: 12px;  
     font-size: 16px;  
+   
 }
 
 .Contenido-Juego{ 
     padding: 0px !important;  
+}
+.Contenido-JuegoTotal{ 
+    padding: 0px !important;  
+}
+.Contenido-JuegoTotal img{ 
+    max-height: 200px; 
+    width: 100% !important; 
+    padding: 0px 
 }
 .Contenido-Juego img{ 
     max-height: 200px; 
@@ -215,14 +251,19 @@ body{
 .tituloJuego{
     width: 70%; 
     border: 1px solid; 
-    padding: 40px;
+    padding: 20px;
     text-align: center;
     font-weight: 600;
-    font-size: 41px;
+    font-size: 22px;
     color: rgb(181, 193, 108);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
-
+.precioPagDesc{
+    display: flex;  
+    justify-content: space-around;
+    align-items: center ;
+    width: 40%;
+}
 .precioPagJuego{
     display: flex;  
     justify-content: space-around;
@@ -283,25 +324,6 @@ input[type="submit"]:hover {
     margin: 20px;
 }
 
-.usuarios{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    background-color: #7dcd81;
-}
-.usuarios h3{
-    font-size: 25px;
-    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-    margin: 20px;
-}
-.usuarios span{ 
-    padding: 10px;
-}
-.usuarios span a{
-    text-decoration: none; 
-    padding: 10px;
-}
 footer{
     height: 40vh;
     background-color: #310072;

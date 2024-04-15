@@ -15,14 +15,14 @@
 <body> 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Tienda de Libros</a>
+          <a class="navbar-brand" href="{% url 'Home' %}">Tienda de Libros</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link" href="#">Catálogo</a>
+                <a class="nav-link" href={%  url 'catalogo' %}>Catálogo</a>
               </li>
                
               <li class="nav-item dropdown">
@@ -37,51 +37,60 @@
                 </ul>
                  
               </li>
-              
+               
+              {% if user.is_authenticated %} 
               <li class="nav-item">
-                <a class="nav-link" href="#">Ofertas</a>
+                <a class="nav-link" href="{%  url 'logout' %}">Cerrar Sesion</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Mi Cuenta</a>
+                <a class="nav-link" href="#">Usuario: {{user.username}}</a>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Iniciar Sesion</a>
+              </li>
+              {% endif %}  
+              {% if user.is_authenticated and user.is_superuser %}
+              <li class="nav-item">
+                <a class="nav-link" href="{%  url 'crear_libros' %}">Crear Libros</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Carrito de Compras</a>
+                <a class="nav-link" href="{%  url 'listado_libros' %}">Ver todos los Libros</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Contacto</a>
-              </li>
+               
+              {% endif %} 
             </ul>
           </div>
         </div>
       </nav>
-    <div class="Contenedor-Inicio">
+    
+      <div class="Contenedor-Inicio">
         <div class="row Titulos-Inicio" > 
-            <h1 class = "col-xs-9 col-sm-12 col-md-12">Tenemos todos los juegos que quieres y los que aun no conoces </h1>
+            <h1 class = "d-none d-sm-block col-sm-12 col-md-12 col-lg-12 col-xl-12">Tenemos todos los libros que quieres y los que aun no conoces </h1>
         </div>
     </div>
     <div class="Contenedor-categorias">
-        <h1>Tipos de Categorias</h1>
-        <div class="Categorias container">
-          {% for categoria in Categorias_Libros %} 
-            <div class="CategoriaTipo col-xs-12 col-sm-3 col-md-3 col-lg-3 ">
-                <div class="imgCategoria">
-                     
+        <h1>Nuestras Categorias de Libros</h1> 
+        <div class="Categorias container ">   
+            <div class= "categoria row "  >  
+              {% for categoria in Categorias_Libros %}
+                <div class="CategoriaTipo"> 
+                  <a href={% url 'detalle_libros' id=categoria.id %}><span>{{categoria.nombre}}</span></a>    
                 </div>
-                <a href={% url 'detalle_libros' id=categoria.id %}><span>{{categoria.nombre}}</span></a>    
-            </div>
-            {% endfor %} 
+              {% endfor %} 
+            </div> 
+            <div class="usuarios d-none d-md-none d-xl-block">
+              <div class= " ">
+                <h3>RECUERDA QUE PARA ACCEDER A NUESTRAS CATEGORIAS DEBES INICIAR SESION</h3>
+                <h4>Si no tienes un usuario creado haz click abajo para registrarte </h4>
+                <span><a href="{% url 'registro' %}" ><span>Registro</span></a>
+                <h4>Si ya tienes un usuario creado haz click abajo para iniciar sesion </h4>
+                <span><a href="{% url 'login' %}" ><span>Inicio Sesion
+                </span></a></span>
+              </div> 
+            </div> 
         </div>
-    </div>
-
-    <div class="usuarios">
-        <h3>Si eres nuevo aqui haz click abajo para registrarte</h3>
-        <span><a href=" "><span>Registro
-        </span></a></span>
-        <h3>Si ya tienes un usuario creado haz click abajo para iniciar sesion </h3>
-        <span><a href=" "><span>Inicio Sesion
-        </span></a></span>
-    </div>
-    
+    </div> 
     <footer>
         <span class="imgFooter">
             <img src="Imagenes/LogoFooter.jpg" alt="" class="imgFooter">

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
     {% load static %} 
@@ -14,12 +15,9 @@
     <div class="contenedorPaginaCategoria">
         <div class="filasCategoria"> 
             <h2>Categorias</h2>
-            <p><a href="Portada.html">Principal</a></p>
-            <p><a href="Accion.html">Accion</a></p>
-            <p><a href="Aventura.html">Aventura</a></p>
-            <p><a href="RPG.html">RPG</a></p>
-            <p><a href="Carreras.html">Carreras</a></p>
-            <p><a href="Supervivencia.html">Supervivencia</a></p>
+            {% for categoria in Categorias_Libros %} 
+              <a href={% url 'detalle_libros' id=categoria.id %}><span class="">{{categoria.nombre}}</span></a>     
+          {% endfor %} 
         </div>
         <div class="contenedorJuegos">  
             <div class="Juegos-Categoria ">
@@ -28,15 +26,16 @@
                     <div class="Contenido-Juego"> 
                         <img src="{{libro.imagen.url}}" />
                         <div class="textoJuegos">
-                            <p>{{libro.nombre}}</p>
-                            <p>{{libro.precio}}</p>
+                            <p>Nombre: {{libro.nombre}}</p>
+                            <p>Precio: {{libro.precio}}</p>
+                            <p>Autor:  {{libro.autor}}</p>
+                            <p>Categoria:  {{libro.categoria_libro}}</p>
                         </div>
                     </div>
                     <a href={% url 'detalle_libro' id=libro.id %}><span>Ver detalles</span></a>
-                </div>
-                
-                {% endfor %}
-               
+                    <a href="{% url 'Home' %}" ><span>Ir a home</span></a>
+                </div> 
+                    {% endfor %} 
             </div>
         </div>
        
