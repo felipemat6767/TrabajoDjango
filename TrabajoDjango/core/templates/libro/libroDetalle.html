@@ -9,20 +9,22 @@
     </head>
     <body>
         <div class="topPagJuego">
-             
+            <a href="{% url 'Home' %}" ><span>Ir a home</span></a>  
         </div> 
         <div class="contenedorPagJuego"> 
             {% for libro in libros %}  
             <img src={{libro.imagen.url}} alt="Accion" class="ImgJuego"/>
-            <div class="textoPagJuego"> 
-                <p>Inicia sesion para agregar elemento al carrito </p>
+            <div class="textoPagJuego">  
                 <p class="tituloJuego">{{libro.nombre}}</p>
             </div>
+            <div class="precioPagDesc">
+                <p>Descripcion: {{libro.descripcion}} </p>
+            </div> 
             <div class="precioPagJuego">
-                <p>Precio: {{libro.precio}} </p>
-                <p class="precioJuego">Agregar al carrito</p>
+                <p>Precio: {{libro.precio}} </p> 
             </div>
             {% endfor %}
         </div>
+        
     </body>
     </html>

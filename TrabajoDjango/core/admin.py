@@ -1,8 +1,6 @@
 from django.contrib import admin 
-from .models import Categoria_Juego,Juego,Libro,Categoria_Libro
-# Register your models here. 
-admin.site.register(Categoria_Juego)
-admin.site.register(Juego)
-admin.site.register(Libro)
-admin.site.register(Categoria_Libro)
+from .models import   Categoria_Libro, Libro,Autor
 # Register your models here.
+admin.site.register(Categoria_Libro)
+admin.site.register(Libro)
+admin.site.register(Autor)
