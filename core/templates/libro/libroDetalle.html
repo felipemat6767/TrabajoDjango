@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %} 
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="{% static 'core/css/estilos.css' %}">  
+    </head>
+    <body>
+        <div class="topPagJuego">
+            <a href="{% url 'Home' %}" ><span>Ir a home</span></a>  
+        </div> 
+        <div class="contenedorPagJuego"> 
+            {% for libro in libros %}  
+            <img src={{libro.imagen.url}} alt="Accion" class="ImgJuego"/>
+            <div class="textoPagJuego">  
+                <p class="tituloJuego">{{libro.nombre}}</p>
+            </div>
+            <div class="precioPagDesc">
+                <p>Descripcion: {{libro.descripcion}} </p>
+            </div> 
+            <div class="precioPagJuego">
+                <p>Precio: {{libro.precio}} </p> 
+            </div>
+            {% endfor %}
+        </div>
+        
+    </body>
+    </html>
