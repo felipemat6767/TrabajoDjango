@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 # Create your models here. 
 class Autor(models.Model):
     nombre = models.CharField(max_length = 300 ) 
@@ -25,3 +25,14 @@ class Libro(models.Model):
     def get__code__name(self):
         return self.nombre  
    
+class UserData(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE) 
+    question = models.CharField(max_length=20)
+    
+class Usuario(models.Model):
+    run = models.IntegerField(primary_key=True, verbose_name='run')
+    username = models.CharField(max_length=10, verbose_name='username')
+    nombres = models.CharField(max_length=60,verbose_name='nombres')
+    apellidos = models.CharField(max_length=60,verbose_name='apellidos')
+    password = models.CharField(max_length=255,verbose_name='password')
+    perfil = models.IntegerField(null=True,blank=True,verbose_name='perfil')    

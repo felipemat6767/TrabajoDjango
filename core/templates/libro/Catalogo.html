@@ -13,7 +13,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#">Tienda de Libros</a>
+          <a class="navbar-brand" href="{% url 'Home' %}">Tienda de Libros</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -56,15 +56,12 @@
         </div>
       </nav>
     <div class="contenedorPaginaCategoria">
-        <div class="filasCategoria"> 
-            <h2>Categorias</h2>
-            <p><a href="Portada.html">Principal</a></p>
-            <p><a href="Accion.html">Accion</a></p>
-            <p><a href="Aventura.html">Aventura</a></p>
-            <p><a href="RPG.html">RPG</a></p>
-            <p><a href="Carreras.html">Carreras</a></p>
-            <p><a href="Supervivencia.html">Supervivencia</a></p>
-        </div>
+      <div class="filasCategoria"> 
+        <h2>Categorias</h2>
+        {% for categoria in Categorias_Libros %} 
+          <a href={% url 'detalle_libros' id=categoria.id %}><span class="">{{categoria.nombre}}</span></a>     
+      {% endfor %} 
+    </div>
         <div class="container">
             <div class="row">
                 {% for libro in libros %}

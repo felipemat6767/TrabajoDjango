@@ -18,11 +18,12 @@ from django.contrib import admin
 from django.urls import path, include 
 from django.conf import settings
 from django.conf.urls.static import static
-from rest_api.viewslogin import login
+from rest_api.viewslogin import login_api
+from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('api/' , include('rest_api.urls')),
     path('' , include('core.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('login/' , login, name="login"), 
+    path('loginUsuario/' , login_api, name="loginUsuario"),   
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

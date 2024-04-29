@@ -1,9 +1,14 @@
 from django.shortcuts import render,redirect
-from .models import Libro,Categoria_Libro,Autor
+from .models import Libro,Categoria_Libro,Autor,UserData,Usuario
+from .forms import SignUpForm,InventarioForm
+from django.contrib.auth.models import User
+from django.contrib import messages
 from django.shortcuts import get_object_or_404
 from .forms import UserCreationForm, CustomUserCreationForm
 from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
+import requests
 # Create your views here. 
  
 def Home(request): 
@@ -37,69 +42,90 @@ def detalle_libro(request, id):
     contexto = { "libros":libros} 
     return render(request, 'libro/libroDetalle.html', contexto )
 
+ 
+
 @login_required
-def crear_libros(request ):
-    if request.method== 'POST': 
-        categoria_id = request.POST.get('categoria')
-        categoria_libro = get_object_or_404(Categoria_Libro, id=categoria_id)
-        autor_id = request.POST.get('autor')
-        autor = get_object_or_404(Autor, id = autor_id)
-        isbn = request.POST.get('isbn') 
-        precio = request.POST.get('precio')
-        nombre = request.POST.get('nombre')
-        descripcion = request.POST.get('descripcion')
-        imagen = request.FILES.get('imagen')
-        Libro.objects.create(
-            precio = precio,
-            codigo_isbn  = isbn,
-            autor  = autor,
-            nombre = nombre,
-            descripcion = descripcion,
-            imagen = imagen,
-            categoria_libro = categoria_libro
-        )    
+def crearLibro(request):
+    datos = {
+        'form': InventarioForm()
+    }
+    if request.method == 'POST':
+        formulario = InventarioForm(request.POST, request.FILES)
+        print("Contenido de request.FILES:", request.FILES)
+        print("Contenido de request.POST:", request.POST)
+        if formulario.is_valid():  
+            formulario.save()
+            datos['mensaje'] = "Guardado correctamente"
+            return redirect('listado_libros')
+    return render(request, 'libro/crearLibro.html', datos)
+
+@login_required
+def editarLibro(request, id):
+    libro = Libro.objects.get(id =id)
+    datos = {'form': InventarioForm(instance=libro)}
+    if request.method == 'POST':
         
-        return redirect( 'listado_libros') 
-
-    categorias = Categoria_Libro.objects.all()
-    Autores = Autor.objects.all()
-    contexto = {  "categorias":categorias, "autores":Autores } 
-    return render(request, 'libro/crearLibro.html', contexto )
-
-@login_required
-def editar_libros(request, id): 
-    libro = get_object_or_404(Libro, id=id  )
-    if request.method== 'POST':  
-        categoria_id = request.POST.get('categoria')
-        categoria_libro = get_object_or_404(Categoria_Libro, id=categoria_id) 
-        autor_id = request.POST.get('autor')
-        autor = get_object_or_404(Autor, id = autor_id)
-        libro.nombre = request.POST['nombre']
-        libro.precio = request.POST['precio']
-        libro.autor = autor
-        libro.descripcion = request.POST.get('descripcion')
-        libro.categoria_libro = categoria_libro 
-        if 'imagen' in request.FILES : 
-            libro.imagen = request.FILES['imagen']  
-        libro.save() 
-    Autores = Autor.objects.all()       
-    categoria_libros = Categoria_Libro.objects.all()
-    contexto = {  "libro":libro,  "categoria_libros": categoria_libros, "autores":Autores} 
-    return render(request, 'libro/editarLibro.html', contexto )
+        formulario = InventarioForm(request.POST, request.FILES, instance=libro)
+        if formulario.is_valid():
+            formulario.save()
+            datos['mensaje'] = "Modificado correctamente"
+            return redirect('listado_libros')
+    return render(request, 'libro/editarLibro.html', datos)  
+ 
+@login_required   
+def eliminarLibros(request, nombre):
+    libro = Libro.objects.get(nombre =nombre)
+    if request.method == 'POST':
+        libro.delete()
+        # Redirigir a una página de éxito o a cualquier otra página deseada
+        return redirect('/')
+    return render(request, 'libro/eliminarLibro.html', {'libro': libro })
 
 def registro(request):  
-    contexto = {  "form":UserCreationForm() } 
+    contexto = { "form":UserCreationForm() } 
     if request.method== 'POST': 
         formulario = CustomUserCreationForm(data = request.POST)
         if formulario.is_valid():
             formulario.save()
-            user = authenticate(username=formulario.cleaned_data['username'], password=formulario.cleaned_data['password1'])
-            login(request,user)
+            user = authenticate(
+                username=formulario.cleaned_data['username'], password=formulario.cleaned_data['password1'])
+            login(request, user)
             return redirect(to="Home")
         contexto['form'] = formulario
       
     return render(request, 'registration/registro.html', contexto) 
-     
-     
-   
-     
+
+def register_user(request):
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username') 
+            password= form.cleaned_data.get('password') 
+            question = form.cleaned_data.get('question')
+            user = User.objects.get(username=username)
+            user_data = UserData.objects.create(user=user ,password=password, question=question)
+            user_data.save()
+            return redirect('Home')
+    else:
+        form = SignUpForm()
+    return render(request, 'registration/register_user.html', {'form':form})
+
+ 
+            
+def cambioContraseña(request): 
+    if request.method== 'POST': 
+        fm = PasswordChangeForm(user=request.user, data=request.POST)
+        if fm.is_valid():
+                fm.save()  
+                messages.success(request, 'Contraseña cambiada correctamente')
+                return redirect ("Home")
+    else: 
+        fm = PasswordChangeForm(user=request.user )   
+    return render(request, 'registration/CambioContraseña.html', {'fm': fm}) 
+
+def form_api(request):
+     return render(request, 'libro/formApi.html')
+
+ 
+          

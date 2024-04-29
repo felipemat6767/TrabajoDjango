@@ -12,7 +12,7 @@ from rest_framework.authtoken.models import Token
 
 @csrf_exempt
 @api_view(['POST'])  
-def login(request):  
+def login_api(request):  
     data = JSONParser().parse(request)
     username = data['username']
     password = data['password']

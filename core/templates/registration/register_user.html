@@ -18,17 +18,15 @@
                 <div class="col-12 col-sm-12 col-md-6 offset-md-3"> 
                     <div class="card"> 
                         <div class="card-body">   
-                        <h2>Ingresa tus datos</h2>
+                        <h2>Registro de Usuario</h2>
                         <hr>
-                        <form action=" " method="post">
+                        <form action=" " method="post" class=" d-flex flex-column  justify-content-between">
                             {% csrf_token %} 
                             {{ form }}  
-                            <input type="submit" class="btn btn-primary" value="Ingresar"></button>
                             <div class=" d-flex justify-content-between m-3">
                                 <a href="{% url 'Home' %}" ><span>Ir a home</span></a> 
-                                <a href="{% url 'registro' %}" ><span>Registro</span>
-                                <a href="{% url 'cambio_Contraseña' %}" ><span>Olvido su Contraseña </span>  
-                             </div>       
+                                <input type="submit" class="btn btn-primary" value="Crear Usuario"></button>     
+                             </div>   
                         </form>   
                     </div> 
                     </div>
