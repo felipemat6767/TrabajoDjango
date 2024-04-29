@@ -45,6 +45,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="#">Usuario: {{user.username}}</a>
               </li>
+              
               {% else %}
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'login' %}">Iniciar Sesion</a>
@@ -90,7 +91,12 @@
               </div> 
             </div> 
         </div>
+        <div class="UsuarioDia"> 
+          <a href={% url 'form_api' %} >Conoce al usuario del dia</a> 
+        </div>
+        
     </div> 
+    
     <footer>
         <span class="imgFooter">
             <img src="Imagenes/LogoFooter.jpg" alt="" class="imgFooter">

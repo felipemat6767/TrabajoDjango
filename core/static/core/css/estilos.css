@@ -323,6 +323,18 @@ input[type="submit"]:hover {
     font-size: small;
     margin: 20px;
 }
+.UsuarioDia{
+    background-color: #310072;
+    align-self: center;
+    margin: 12px;   
+    display: flex;
+    flex-direction: column;
+}
+.UsuarioDia a{ 
+    font-size: 30px;
+    padding: 10px;   
+    text-decoration: none; 
+}
 
 footer{
     height: 40vh;

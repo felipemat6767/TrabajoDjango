@@ -31,7 +31,8 @@
         {% if libro.imagen %}
         <td> <img src="{{libro.imagen.url}}" width= "100"/></td>
         {% endif %} 
-        <td><a href ="{% url 'editar_libros' id=libro.id %}">Editar</a></td>
+        <td><a href ="{% url 'editarLibros' id=libro.id %}">Editar</a></td>
+        <td><a href ="{% url 'eliminarLibro' nombre=libro.nombre %}">Eliminar</a></td>
       </tr>
       {% endfor %}
      

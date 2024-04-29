@@ -1,4 +1,3 @@
-! 
 {% block contenido %}
 <!DOCTYPE html>
 {% load static %} 
@@ -18,17 +17,12 @@
                 <div class="col-12 col-sm-12 col-md-6 offset-md-3"> 
                     <div class="card"> 
                         <div class="card-body">   
-                        <h2>Ingresa tus datos</h2>
+                        <h2>Cambio Contraseña</h2>
                         <hr>
                         <form action=" " method="post">
                             {% csrf_token %} 
-                            {{ form }}  
+                            {{ fm.as_p }}   
                             <input type="submit" class="btn btn-primary" value="Ingresar"></button>
-                            <div class=" d-flex justify-content-between m-3">
-                                <a href="{% url 'Home' %}" ><span>Ir a home</span></a> 
-                                <a href="{% url 'registro' %}" ><span>Registro</span>
-                                <a href="{% url 'cambio_Contraseña' %}" ><span>Olvido su Contraseña </span>  
-                             </div>       
                         </form>   
                     </div> 
                     </div>
